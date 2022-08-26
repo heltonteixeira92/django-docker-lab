@@ -8,4 +8,10 @@ services:
       - 8000:8000
     image: app:django
     container_name: django_container
-    command: python manage.py runserver 0.0.0.0:8000
+  celery-worker:
+    image: django-docker-lab
+    valumes:
+      - .:/django
+      command: "celery -A django.tasks worker --loglevel=info"
+  redis:
+      image: redis:5.0-alpine
